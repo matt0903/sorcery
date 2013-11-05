@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = "sorcery"
-  s.version = "0.8.2"
+  s.version = "0.8.3"
   s.authors = ["Noam Ben Ari"]
   s.email = "nbenari@gmail.com"
   s.description = "Provides common authentication needs such as signing in/out, activating by email and resetting password."

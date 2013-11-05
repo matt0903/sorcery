@@ -93,7 +93,13 @@ module Sorcery
           # tries to login the user from provider's callback
           def login_from(provider_name, should_remember = false)
             sorcery_fetch_user_hash provider_name
-
+            
+            if logged_in?
+              if current_user.link_from_provider(provider, @user_hash[:uid])
+                session[:"#{provider}_access_token"] = @user_hash[:access_token]
+                  current_user
+                end
+            else
             if user = user_class.load_from_provider(provider_name, @user_hash[:uid].to_s)
               # we found the user.
               # clear the session
@@ -109,6 +115,7 @@ module Sorcery
               user
             end
           end
+        end
 
           # If user is logged, he can add all available providers into his account
           def add_provider_to_user(provider_name)

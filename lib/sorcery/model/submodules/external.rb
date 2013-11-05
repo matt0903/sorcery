@@ -47,7 +47,21 @@ module Sorcery
         end
         
         module InstanceMethods
-
+          def link_from_provider(provider,uid)
+            config = sorcery_config
+            authentication = config.authentications_class.find_by_provider_and_uid(provider, uid)
+            unless authentication
+              config.authentications_class.create!({config.authentications_user_id_attribute_name => id, config.provider_attribute_name => provider, config.provider_uid_attribute_name => uid})
+            else
+              #raise exception if we're trying to link a provider when it's linked to another account
+              if id == authentication.send(config.authentications_user_id_attribute_name)
+                self
+              else
+                #TODO make a more specific error
+                raise StandardError.new
+              end
+            end
+          end
         end
       
       end

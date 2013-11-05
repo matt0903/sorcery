@@ -95,7 +95,7 @@ module Sorcery
             sorcery_fetch_user_hash provider_name
             
             if logged_in?
-              if current_user.link_from_provider(provider_name, @user_hash[:uid])
+              if current_user.link_from_provider(provider_name, @user_hash[:uid].to_s)
                 session[:"#{provider}_access_token"] = @user_hash[:access_token]
                   current_user
                 end
